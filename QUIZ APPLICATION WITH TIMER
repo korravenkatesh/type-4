@@ -1,0 +1,55 @@
+import time
+
+class QuizQuestion:
+    def __init__(self, question, options, correct_answer):
+        self.question = question
+        self.options = options
+        self.correct_answer = correct_answer
+
+class QuizGame:
+    def __init__(self):
+        self.questions = []
+        self.score = 0
+
+    def add_question(self, question, options, correct_answer):
+        self.questions.append(QuizQuestion(question, options, correct_answer))
+
+    def display_question(self, question):
+        print(question.question)
+        for i, option in enumerate(question.options):
+            print(f"{i + 1}. {option}")
+        return int(input("Enter your answer (1/2/3/4): ")) - 1
+
+    def run(self):
+        print("Welcome to the Quiz Game!")
+
+        for question in self.questions:
+            print("\nNext question:")
+            user_answer = self.display_question(question)
+            
+            if 0 <= user_answer < len(question.options):
+                correct_answer_index = question.options.index(question.correct_answer)
+                if user_answer == correct_answer_index:
+                    print("Correct!")
+                    self.score += 1
+                else:
+                    print(f"Wrong! The correct answer was: {question.correct_answer}")
+            else:
+                print("Invalid choice. Skipping this question.")
+
+            time.sleep(2)  # Add a delay before displaying the next question
+
+        print("\nQuiz Completed!")
+        print(f"Your score: {self.score}/{len(self.questions)}")
+        print(f"Correct answers: {self.score}, Incorrect answers: {len(self.questions) - self.score}")
+
+if __name__ == "__main__":
+    quiz = QuizGame()
+
+    # Add quiz questions here
+    quiz.add_question("What is the capital of France?", ["Paris", "London", "Berlin", "Madrid"], "Paris")
+    quiz.add_question("Which planet is known as the Red Planet?", ["Mars", "Venus", "Jupiter", "Saturn"], "Mars")
+    quiz.add_question("What is the largest mammal in the world?", ["Elephant", "Giraffe", "Blue Whale", "Horse"], "Blue Whale")
+    quiz.add_question("Who wrote the play 'Romeo and Juliet'?", ["William Shakespeare", "Jane Austen", "Mark Twain", "George Orwell"], "William Shakespeare")
+
+    quiz.run()
